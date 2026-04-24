@@ -1,0 +1,170 @@
+.history-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  margin-bottom: 24px;
+}
+.search-icon {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+.search-input {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  padding: 8px;
+  outline: none;
+}
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  cursor: pointer;
+}
+.history-item-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.history-item-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: var(--gradient-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+}
+.history-item-info {
+  display: flex;
+  flex-direction: column;
+}
+.history-item-date {
+  font-weight: 600;
+  font-size: 0.93rem;
+}
+.history-item-meta {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.history-item-arrow {
+  color: var(--text-muted);
+  transition: transform var(--transition-fast);
+}
+.history-item:hover .history-item-arrow {
+  transform: translateX(4px);
+  color: var(--accent-blue);
+}
+
+.back-btn {
+  margin-bottom: 16px;
+}
+
+.history-detail {
+  padding: 24px;
+}
+.detail-header {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-glass);
+}
+.detail-header h2 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+.detail-meta {
+  display: flex;
+  gap: 16px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+.detail-meta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.detail-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.history-message {
+  display: flex;
+  gap: 10px;
+  max-width: 80%;
+}
+.history-message.user {
+  flex-direction: row-reverse;
+  align-self: flex-end;
+}
+.history-message.assistant {
+  align-self: flex-start;
+}
+
+.history-msg-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.history-message.assistant .history-msg-avatar {
+  background: var(--gradient-primary);
+  color: white;
+}
+.history-message.user .history-msg-avatar {
+  background: rgba(139, 92, 246, 0.2);
+  color: var(--accent-purple-light);
+}
+
+.history-msg-content {
+  display: flex;
+  flex-direction: column;
+}
+.history-msg-content p {
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+.history-message.assistant .history-msg-content p {
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
+}
+.history-message.user .history-msg-content p {
+  background: var(--gradient-primary);
+  color: white;
+}
+.history-msg-time {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  padding: 0 4px;
+}
+.history-corrections {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
