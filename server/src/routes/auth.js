@@ -4,14 +4,17 @@ const jwt = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
 const { db } = require('../config/database');
 const { authMiddleware } = require('../middleware/auth');
-require('dotenv').config();
 
 const router = express.Router();
 
 // POST /api/auth/register
 router.post('/register', (req, res) => {
   try {
-    const { name, email, password, confirmPassword } = req.body;
+    let { name, email, password, confirmPassword } = req.body;
+
+    // Normalize email
+    if (email) email = email.toLowerCase().trim();
+    if (name) name = name.trim();
 
     // Validations
     if (!name || !email || !password || !confirmPassword) {
@@ -36,7 +39,7 @@ router.post('/register', (req, res) => {
     }
 
     // Check duplicate email
-    const existingUser = db.prepare('SELECT id FROM users WHERE email = ?').get(email.toLowerCase());
+    const existingUser = db.prepare('SELECT id FROM users WHERE email = ?').get(email);
     if (existingUser) {
       return res.status(409).json({ error: 'Este e-mail já está cadastrado.' });
     }
@@ -48,14 +51,14 @@ router.post('/register', (req, res) => {
     db.prepare(`
       INSERT INTO users (id, name, email, password)
       VALUES (?, ?, ?, ?)
-    `).run(userId, name.trim(), email.toLowerCase().trim(), hashedPassword);
+    `).run(userId, name, email, hashedPassword);
 
     res.status(201).json({
       message: 'Cadastro realizado com sucesso!',
       userId
     });
   } catch (error) {
-    console.error('Register error:', error);
+    console.error('❌ Register error detail:', error);
     res.status(500).json({ error: 'Erro ao realizar cadastro.' });
   }
 });
@@ -63,13 +66,18 @@ router.post('/register', (req, res) => {
 // POST /api/auth/login
 router.post('/login', (req, res) => {
   try {
-    const { email, password } = req.body;
+    let { email, password } = req.body;
+
+    // Normalize email
+    if (email) email = email.toLowerCase().trim();
 
     if (!email || !password) {
       return res.status(400).json({ error: 'E-mail e senha são obrigatórios.' });
     }
+    
+    console.log(`🔍 Login attempt for: ${email}`);
 
-    const user = db.prepare('SELECT * FROM users WHERE email = ?').get(email.toLowerCase());
+    const user = db.prepare('SELECT * FROM users WHERE email = ?').get(email);
 
     if (!user) {
       return res.status(401).json({ error: 'E-mail ou senha incorretos.' });
@@ -149,7 +157,7 @@ router.post('/login', (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('❌ Login error detail:', error);
     res.status(500).json({ error: 'Erro ao realizar login.' });
   }
 });
